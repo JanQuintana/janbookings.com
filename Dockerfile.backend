@@ -1,0 +1,28 @@
+# Use an official PHP image as the base image
+FROM php:8.1-fpm
+
+# Install required extensions and packages
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libicu-dev \
+    && docker-php-ext-install -j$(nproc) intl pdo_mysql
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Symfony's Web Server Bundle
+RUN composer require symfony/debug-bundle --dev
+RUN composer update
+
+# Set the working directory
+WORKDIR /var/www/backend
+
+# Copy Symfony files into the container
+COPY ./backend/ .
+
+# Expose the port where PHP built-in web server will run (typically 8000)
+EXPOSE 8000
+
+# Start the PHP built-in web server
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

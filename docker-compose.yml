@@ -1,0 +1,34 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - frontend
+    environment:
+      # Database configuration for Symfony
+      DATABASE_URL: "mysql://root:root@mariadb:3306/janbookings"
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: janbookings
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

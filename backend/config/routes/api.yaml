@@ -1,0 +1,23 @@
+#### API ROUTES ####
+
+api_booking_create:
+  path: '/api/booking/create'
+  controller: App\Controller\ApiController::createBooking
+  methods: [ 'POST' ]
+
+api_bookings_get:
+  path: '/api/bookings'
+  controller: App\Controller\ApiController::getBookings
+  methods: [ 'GET' ]
+
+api_booking_update:
+  path: '/api/booking/{id}'
+  controller: App\Controller\ApiController::updateBooking
+  methods: [ 'PUT' ]
+
+api_booking_delete:
+  path: '/api/booking/delete/{id}'
+  controller: App\Controller\ApiController::deleteBooking
+  methods: [ 'DELETE' ]
+
+### END API ROUTES ###
